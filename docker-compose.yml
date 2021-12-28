@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: frontend/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/frontend
+
+  backend:
+    build:
+      context: backend/
+    ports:
+      - 4000:4000
+    volumes:
+      - ./backend:/backend
+    networks:
+      - mongodb
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - mongodb
+volumes:
+  mongodb:
+  mongodb_config:
+
+networks:
+  mongodb:
